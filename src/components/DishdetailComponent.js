@@ -1,5 +1,14 @@
-import React from "react";
-import { Card, CardImg, CardTitle, CardBody, CardText } from "reactstrap";
+import React, { Fragment } from "react";
+import {
+  Card,
+  CardImg,
+  CardTitle,
+  CardBody,
+  CardText,
+  Breadcrumb,
+  BreadcrumbItem,
+} from "reactstrap";
+import { Link } from "react-router-dom";
 
 const RenderComment = ({ comment }) => {
   return (
@@ -27,14 +36,30 @@ const RenderDish = ({ dish }) => {
     </Card>
   );
 };
-const DishDetail = ({ dish }) => {
+const DishDetail = ({ dish, comments }) => {
   if (dish != null) {
-    const renderComment = dish.comments.map((comment) => {
-      return <RenderComment comment={comment} />;
+    const renderComment = comments.map((comment) => {
+      return (
+        <Fragment key={comment.id}>
+          <RenderComment comment={comment} />
+        </Fragment>
+      );
     });
 
     return (
       <div className="container">
+        <div className="row">
+          <Breadcrumb>
+            <BreadcrumbItem>
+              <Link to="/menu">Menu</Link>
+            </BreadcrumbItem>
+            <BreadcrumbItem active>{dish.name}</BreadcrumbItem>
+          </Breadcrumb>
+          <div className="col-12">
+            <h3>{dish.name}</h3>
+            <hr />
+          </div>
+        </div>
         <div className="row">
           <div className="col-12 col-md-5 m-1">
             <RenderDish dish={dish} />
